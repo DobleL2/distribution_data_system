@@ -66,7 +66,7 @@ def run():
                     else:
                         st.warning('No existen registros con el identificador buscado')
         else:
-            st.info('No hay tablas disponibles en este momento para eliminar')
+            st.info('No hay tablas disponibles en este momento para mostrar')
 
 import re
 

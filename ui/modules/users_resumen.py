@@ -35,7 +35,7 @@ def run():
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
         else:
-            st.info('No hay tablas disponibles en este momento para eliminar')
+            st.info('No hay tablas disponibles en este momento para mostrar')
         
         
 def resumen_data(df):
