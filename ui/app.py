@@ -40,7 +40,6 @@ else:
             st.session_state["fullname"] = token["fullname"]
             st.session_state["id"] = token["id"]
             st.success("Login successful!")
-            st.write(st.session_state)
             st.session_state['record_id'] = None
             st.rerun()
         else:

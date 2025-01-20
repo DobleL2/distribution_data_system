@@ -25,6 +25,7 @@ def run():
         current_dataset = get_current_dataset()
         if current_dataset:            
             st.subheader("Actual dataset seleccionado")
+            st.write(f'Nombre: {current_dataset["dataset_name"]}')
             st.write(pd.DataFrame(current_dataset['results']).drop(columns=['id','status','assigned_to','assigned_at','processed_at']))
         else:
             st.warning("No se ha seleccionado un dataset todavía, seleccione alguno de los disponibles o suba uno.")

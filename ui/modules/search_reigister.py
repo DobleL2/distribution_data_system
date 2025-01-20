@@ -44,12 +44,13 @@ def run():
                         st.subheader("Datos Demográficos")
                         columnas_demo = st.columns(3)
                         for i, (clave, valor) in enumerate(datos_demograficos.items()):
-                            with columnas_demo[i % 3]:
-                                html_content = f"""
-                                <span style='font-size:18px; font-weight:bold; color:orange'>{clave}:</span>
-                                <span style='font-size:16px;'>{valor}</span>
-                                """
-                                st.markdown(html_content, unsafe_allow_html=True)
+                            if clave not in ['id','status','assigned_to','assigned_at','processed_at']:
+                                with columnas_demo[i % 3]:
+                                    html_content = f"""
+                                    <span style='font-size:18px; font-weight:bold; color:orange'>{clave}:</span>
+                                    <span style='font-size:16px;'>{valor}</span>
+                                    """
+                                    st.markdown(html_content, unsafe_allow_html=True)
 
                         st.divider()  # Línea divisoria
 
