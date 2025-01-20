@@ -33,7 +33,8 @@ def run():
         if not tables.empty:
             st.subheader('Nuevo dataset con el que se desea trabajar')
             datasets_options = tables['dataset_name'].unique().tolist()
-            datasets_options = [i for i in datasets_options if i!=current_dataset['dataset_name']]
+            if current_dataset:
+                datasets_options = [i for i in datasets_options if i!=current_dataset['dataset_name']]
             table_name_to_select = st.selectbox('Dataset a seleccionar',datasets_options)
             if datasets_options:
                 if st.button("Cambiar a la tabla seleccionada"):

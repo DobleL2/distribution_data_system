@@ -14,13 +14,13 @@ def create_user(username, password, full_name,role):
         "full_name": full_name,  # Cambiado a full_name
         "role":role
     }
-    response = requests.get(API_URL, json=payload)
+    response = requests.post(f"{API_URL}/users/", json=payload)
     if response.status_code == 200:
         st.success(f"Usuario {username} agregado exitosamente al sistema.") 
         #return response.json()
     else:
         st.error(f"El usuario {username} ya se encuentra dentro de la base de datos.")
-        st.error(f"Error: {response.json().get('detail', 'Unknown error')}")
+        #st.error(f"Error: {response.json().get('detail', 'Unknown error')}")
         return None
 
 # Diseño de la página de Streamlit

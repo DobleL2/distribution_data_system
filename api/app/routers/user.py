@@ -25,7 +25,7 @@ class TableRequest(BaseModel):
 
 router = APIRouter()
 
-@router.get("/users/", response_model=UserRead)
+@router.post("/users/", response_model=UserRead)
 def create_user_endpoint(user: UserCreate, db: Session = Depends(get_db)):
     db_user = get_user_by_username(db, user.username)
     if db_user:

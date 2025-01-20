@@ -5,7 +5,7 @@ services:
       context: ./api
     container_name: fastapi-container
     volumes:
-      - ./api/test.db:/app/test.db
+      - ./api/test.db:/app/test.db:rw
     ports:
       - "8001:8000"  # Change the host port
 
