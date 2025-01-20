@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  api:
+    build:
+      context: ./api
+    container_name: fastapi-container
+    volumes:
+      - ./api/data.db:/app/data.db
+    ports:
+      - "8001:8000"  # Change the host port
+
+  ui:
+    build:
+      context: ./ui
+    container_name: ui-container
+    depends_on:
+      - api
+    ports:
+      - "8501:8501"
