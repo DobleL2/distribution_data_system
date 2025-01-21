@@ -14,6 +14,7 @@ from datetime import datetime
 from sqlalchemy import MetaData, Table, Column, Integer, String, inspect
 from sqlalchemy.sql import text
 from app.schemas.user import DatasetCreate
+from app.models.user import User
 import pytz
 
 from pydantic import BaseModel
@@ -24,6 +25,47 @@ class TableRequest(BaseModel):
     table_name: str
 
 router = APIRouter()
+
+class UpdateUserRequest(BaseModel):
+    fullname: str = None
+    password: str = None
+
+@router.put("/users/{username}/update")
+def update_user(username: str, request: UpdateUserRequest, db: Session = Depends(get_db)):
+    """
+    Endpoint para actualizar el fullname y/o contraseña de un usuario.
+    
+    Args:
+        username (int): ID del usuario que se desea actualizar.
+        request (UpdateUserRequest): Datos opcionales a actualizar (fullname, password).
+        db (Session): Sesión de la base de datos.
+        
+    Returns:
+        dict: Confirmación de la operación.
+    """
+    # Obtener al usuario de la base de datos
+    user = db.query(User).filter(User.username == username,User.role!='super_admin',User.role!='admin').first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found.")
+    
+    # Verificar qué campos se enviaron en la solicitud y actualizarlos
+    if request.fullname is not None:
+        user.full_name = request.fullname
+    if request.password is not None:
+        user.hashed_password = hash_password(request.password)
+    
+    # Si no se enviaron datos, lanzar una excepción
+    if request.fullname is None and request.password is None:
+        raise HTTPException(status_code=400, detail="No data provided to update.")
+    
+    # Guardar los cambios
+    try:
+        db.commit()
+        return {"message": f"User {username} updated successfully."}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Error updating user: {e}")
+
 
 @router.post("/users/", response_model=UserRead)
 def create_user_endpoint(user: UserCreate, db: Session = Depends(get_db)):

@@ -49,8 +49,8 @@ import streamlit as st
 from modules import *
 
 ROLE_PAGES = {
-    "super_admin": ["Cargar Datos", "Borrar Datos","Crear Usuarios","Seleccionar Datos","Resumen de usuarios","Estado de Procesamiento","Buscar Registros"],
-    "admin": ["Cargar Datos","Crear Usuarios","Seleccionar Datos","Resumen de usuarios","Estado de Procesamiento","Buscar Registros"],
+    "super_admin": ["Cargar Datos", "Borrar Datos","Crear Usuarios","Modificar datos usuario","Seleccionar Datos","Resumen de usuarios","Estado de Procesamiento","Buscar Registros"],
+    "admin": ["Cargar Datos","Crear Usuarios","Modificar datos usuario","Seleccionar Datos","Resumen de usuarios","Estado de Procesamiento","Buscar Registros"],
     "user": ["Process Record"],
     "guest": []
 }
@@ -87,6 +87,9 @@ if "auth_token" in st.session_state and st.session_state["auth_token"]:
     elif selected_page == "Buscar Registros":
         import modules.search_reigister as search_reigister
         search_reigister.run()
+    elif selected_page == "Modificar datos usuario":
+        import modules.update_user as update_user
+        update_user.run()
         
 else:
     st.sidebar.info("Please log in to access the application.")

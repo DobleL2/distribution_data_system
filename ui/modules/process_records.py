@@ -44,17 +44,53 @@ def run():
                         st.markdown(html_content, unsafe_allow_html=True)
 
                 st.divider()  # Línea divisoria
-
-                # Mostrar datos de respuestas en 5 columnas
+                # Mostrar datos de respuestas en una tabla de 5 columnas
                 st.subheader("Datos de Respuestas")
-                columnas_resp = st.columns(5)
-                for i, (clave, valor) in enumerate(datos_respuestas.items()):
-                    with columnas_resp[i % 5]:
-                        html_content = f"""
-                        <span style='font-size:18px; font-weight:bold; color:skyblue'>{clave}:</span>
-                        <span style='font-size:16px;'>{valor}</span>
-                        """
-                        st.markdown(html_content, unsafe_allow_html=True)
+                # CSS para estilizar la tabla
+                st.markdown(
+                    """
+                    <style>
+                    .styled-table {
+                        border-collapse: collapse;
+                        margin: 25px 0;
+                        font-size: 18px;
+                        text-align: left;
+                        width: 100%;
+                    }
+                    .styled-table th, .styled-table td {
+                        border: 1px solid #ddd;
+                        padding: 8px;
+                        text-align: center;
+                    }
+                    .styled-table th {
+                        background-color: #009879;
+                        color: white;
+                        font-weight: bold;
+                    }
+                    .styled-table tr:nth-child(even) {
+                        background-color: #f3f3f3;
+                    }
+                    .styled-table td {
+                        background-color: #f9f9f9;
+                    }
+                    </style>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+                # Generar tabla en HTML
+                html_table = "<table class='styled-table'><tr>"
+                contador = 0
+                for clave, valor in datos_respuestas.items():
+                    html_table += f"<td style='background-color: hsl({contador * 100}, 50%, 50%);'>{clave}: {valor}</td>"
+                    contador += 1
+                    if contador % 5 == 0:
+                        html_table += "</tr><tr>"
+
+                html_table += "</tr></table>"
+
+                # Mostrar la tabla
+                st.markdown(html_table, unsafe_allow_html=True)
             else:
                 st.error("No hay registros disponibles.")
         if st.session_state['record_id'] != None:
